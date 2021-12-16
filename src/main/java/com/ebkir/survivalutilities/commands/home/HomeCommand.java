@@ -1,58 +1,67 @@
 package com.ebkir.survivalutilities.commands.home;
 
 import com.ebkir.survivalutilities.SurvivalUtilities;
+import com.ebkir.survivalutilities.models.Home;
+import com.ebkir.survivalutilities.utils.Messager;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.stream.Collectors;
+import java.util.List;
 
-public class HomeCommand implements CommandExecutor {
+public class HomeCommand extends Command {
 
     private final SurvivalUtilities plugin;
-    private final String rootPath;
+    private final String configRoot;
 
-    public HomeCommand(SurvivalUtilities plugin, String rootPath) {
+    public HomeCommand(SurvivalUtilities plugin, String configRoot) {
+        super("home");
+        String description = "Teleport to a home";
+        String usageMessage = "&a/home <name>";
+        super.setUsage(usageMessage);
+        super.setDescription(description);
+
+        this.configRoot = configRoot;
         this.plugin = plugin;
-        this.rootPath = rootPath;
     }
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage("Only players can use this command!");
+            Messager.send(sender, "&cOnly players can use this command");
             return true;
         }
 
         if (args.length != 1) {
-            sender.sendMessage("Wrong arguments");
-            return false;
+            Messager.send(sender, super.getUsage());
+            return true;
         }
 
         String homeName = args[0];
-        String playerConfigRoot = rootPath + player.getUniqueId();
-        var homesMapList = plugin.getConfig().getMapList(playerConfigRoot);
+        String playerConfigRoot = configRoot + player.getUniqueId();
+        List<Home> homeList = (List<Home>) plugin.getConfig().getList(playerConfigRoot);
 
-        if (homesMapList.isEmpty()) {
-            player.sendMessage("You don't have any homes yet");
+
+        if (homeList == null) {
+            Messager.send(player, "&aYou don't have any homes");
             return true;
         }
 
-        var optionalHome =
-                homesMapList.stream()
-                        .filter((map) -> map.containsKey(homeName))
-                        .toList();
+        var optionalHome = homeList
+                .stream()
+                .filter(home -> home.getName().equals(homeName))
+                .findFirst();
 
         if (optionalHome.isEmpty()) {
-            player.sendMessage("You don't have a home with this name.");
+            Messager.send(player, "&aYou don't have a home with this name");
             return true;
         }
 
-        Location homeLocation = (Location) optionalHome.get(0).get(homeName);
-        player.teleport(homeLocation);
+        Location location = optionalHome.get().getLocation();
+        Messager.send(player, "&aTeleporting to &3&l" + homeName + "&r&a");
+        player.teleportAsync(location);
         return true;
     }
 }

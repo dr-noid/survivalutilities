@@ -1,81 +1,108 @@
 package com.ebkir.survivalutilities.commands.home;
 
 import com.ebkir.survivalutilities.SurvivalUtilities;
+import com.ebkir.survivalutilities.models.Home;
+import com.ebkir.survivalutilities.utils.Messager;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-public class SetHomeCommand implements CommandExecutor {
+public class SetHomeCommand extends Command {
 
     private final SurvivalUtilities plugin;
-    private final String rootPath;
+    private final String configRoot;
 
-    public SetHomeCommand(SurvivalUtilities plugin, String rootPath) {
+    public SetHomeCommand(SurvivalUtilities plugin, String configRoot) {
+        super("sethome");
+        String description = "Teleport to a home";
+        String usageMessage = "&a/sethome <name>";
+        super.setUsage(usageMessage);
+        super.setDescription(description);
+
+        this.configRoot = configRoot;
         this.plugin = plugin;
-        this.rootPath = rootPath;
     }
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage("Only players can use this command!");
+            Messager.send(sender, "&cOnly players can use this command");
             return true;
         }
 
-        if (args.length == 0) {
-            return false;
-        }
-
-        if (args.length > 1) {
-            sender.sendMessage("Too many arguments!");
-            return false;
+        if (args.length != 1) {
+            Messager.send(sender, super.getUsage());
+            return true;
         }
 
         String homeName = args[0];
-        String playerConfigRoot = rootPath + player.getUniqueId();
+        String playerConfigRoot = configRoot + player.getUniqueId();
         Location playerLocation = player.getLocation();
+        var homeToBeAdded = new Home(homeName, playerLocation, player.getUniqueId());
 
-        var homesMapList = plugin.getConfig().getMapList(playerConfigRoot);
-        plugin.getLogger().info(homesMapList.toString());
+        List<Home> configHomeList = (List<Home>) plugin.getConfig().getList(playerConfigRoot);
 
-        if (homesMapList.isEmpty()) {
-            List<HashMap<String, Location>> homesList = new ArrayList<>();
+        if (configHomeList == null) {
+            // add new home if list is empty
+            saveNewHome(homeToBeAdded, playerConfigRoot);
+        }
+        else {
+            // else we just append to the existing homeList
+            boolean homeAdded = addHome(homeToBeAdded, playerConfigRoot, configHomeList);
 
-            var home = new HashMap<String, Location>();
-            home.put(homeName, playerLocation);
-            homesList.add(home);
-
-            plugin.getConfig().set(playerConfigRoot, homesList);
-            plugin.saveConfig();
-
-            player.sendMessage("Home " + homeName + " is saved.");
-            return true;
+            if (!homeAdded) {
+                Messager.send(player, MessageFormat.format("&cHome &3&l{0}&r&c already exists", homeName));
+                return true;
+            }
         }
 
-        boolean homeSameName = homesMapList.stream().anyMatch(map -> map.containsKey(homeName));
-
-        if (homeSameName) {
-            plugin.getLogger().info("Sethome with same homename is called: " + homeName);
-            player.sendMessage("You can't sethome with the same name.");
-            return true;
-        }
-
-        // not the same name and already has homes
-
-        var newHome = new HashMap<String, Location>();
-        newHome.put(homeName, playerLocation);
-
-        homesMapList.add(newHome);
-        plugin.getConfig().set(playerConfigRoot, homesMapList);
-        plugin.saveConfig();
-        player.sendMessage("Home " + homeName + " is saved.");
+        Messager.send(player, MessageFormat.format("&aHome &3&l{0}&r&a has been set", homeName));
         return true;
+    }
+
+    /**
+     * For creating a home entry
+     * @param home Home object to be added to the config
+     * @param playerConfig yml path
+     */
+    private void saveNewHome(Home home, String playerConfig) {
+        List<Home> homeList = new ArrayList<>();
+        homeList.add(home);
+        plugin.getConfig().set(playerConfig, homeList);
+        plugin.saveConfig();
+    }
+
+    /**
+     * For adding homes
+     * @return Returns <code>true</code> if the home is saved and <code>false</code>
+     * if a home with the same name already exists
+     */
+    private boolean addHome(Home home, String playerConfig, List<Home> homeList) {
+        if (homeAlreadyExists(home, homeList)) {
+            return false;
+        }
+        homeList.add(home);
+        plugin.getConfig().set(playerConfig, homeList);
+        plugin.saveConfig();
+        return true;
+    }
+
+    /**
+     * Check if home already exists.
+     * @param home
+     * @param homeList
+     * @return returns <code>true</code> if a home with the
+     * same name exists in the given list.
+     */
+    private boolean homeAlreadyExists(Home home, List<Home> homeList) {
+        return homeList
+                .stream()
+                .anyMatch(h -> h.getName().equals(home.getName()));
     }
 }

@@ -36,7 +36,7 @@ public class Home implements ConfigurationSerializable {
 
         data.put("name", this.name);
         data.put("location", this.location);
-        data.put("owneruuid", this.ownerUUID);
+        data.put("owneruuid", this.ownerUUID.toString());
         data.put("createdon", this.createdOn);
 
         return data;
@@ -45,7 +45,7 @@ public class Home implements ConfigurationSerializable {
     public Home deserialize(@NotNull Map<String, Object> data) {
         String name = (String) data.get("name");
         Location loc = (Location) data.get("location");
-        UUID ownerUUID = (UUID) data.get("owneruuid");
+        UUID ownerUUID = UUID.fromString((String) data.get("owneruuid"));
         Long createdOn = (Long) data.get("createdon");
 
         return new Home(name, loc, ownerUUID, createdOn);
