@@ -3,28 +3,30 @@ version: '${project.version}'
 main: com.ebkir.survivalutilities.SurvivalUtilities
 api-version: 1.18
 author: Baerat
-commands:
-  spawn:
-    description: 'go to spawn'
-    usage: 'Usage: /spawn'
-  setspawn:
-    description: 'set the spawn location'
-    usage: 'Usage: /setspawn'
-  home:
-    description: 'go to your home'
-    usage: 'Usage: /home <name>'
-  sethome:
-    description: 'save your current location'
-    usage: 'Usage: /sethome <name>'
-  delhome:
-    description: 'remove a home'
-    usage: 'Usage: /delhome <name>'
-  homes:
-    description: 'list all your homes'
-    usage: 'Usage: /homes'
-  teleport:
-    description: 'teleport to a player'
-    usage: 'Usage: /teleport <player>'
-    aliases:
-      - tpa
-      - tp
+#commands:
+#  spawn:
+#    description: 'go to spawn'
+#    usage: 'Usage: /spawn'
+#  setspawn:
+#    description: 'set the spawn location'
+#    usage: 'Usage: /setspawn'
+#  home:
+#    description: 'go to your home'
+#    usage: 'Usage: /home <name>'
+#  sethome:
+#    description: 'save your current location'
+#    usage: 'Usage: /sethome <name>'
+#  delhome:
+#    description: 'remove a home'
+#    usage: 'Usage: /delhome <name>'
+#  homes:
+#    description: 'list all your homes'
+#    usage: 'Usage: /homes'
+#  teleport:
+#    description: 'teleport to a player'
+#    usage: 'Usage: /teleport <player>'
+#    aliases:
+#      - tpa
+#      - tp
+#  specialhome:
+#    description: 'specialhome'
