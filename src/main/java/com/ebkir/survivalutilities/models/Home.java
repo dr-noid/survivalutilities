@@ -30,6 +30,13 @@ public class Home implements ConfigurationSerializable {
         this.createdOn = createdOn;
     }
 
+    public Home(Map<String, Object> data) {
+        this.name = (String) data.get("name");
+        this.location =  (Location) data.get("location");
+        this.ownerUUID = UUID.fromString((String) data.get("owneruuid"));
+        this.createdOn = (Long) data.get("createdon");
+    }
+
     @Override
     public @NotNull Map<String, Object> serialize() {
         Map<String, Object> data = new HashMap<String, Object>();
