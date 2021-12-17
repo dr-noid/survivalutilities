@@ -42,7 +42,7 @@ public class Home implements ConfigurationSerializable {
         return data;
     }
 
-    public Home deserialize(@NotNull Map<String, Object> data) {
+    public static Home deserialize(@NotNull Map<String, Object> data) {
         String name = (String) data.get("name");
         Location loc = (Location) data.get("location");
         UUID ownerUUID = UUID.fromString((String) data.get("owneruuid"));

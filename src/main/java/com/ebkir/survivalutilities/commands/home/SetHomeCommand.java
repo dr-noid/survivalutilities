@@ -54,6 +54,7 @@ public class SetHomeCommand extends Command {
         }
         else {
             // else we just append to the existing homeList
+            plugin.getLogger().info("confighomelist: " + configHomeList);
             boolean homeAdded = addHome(homeToBeAdded, playerConfigRoot, configHomeList);
 
             if (!homeAdded) {

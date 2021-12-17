@@ -48,6 +48,7 @@ public final class SurvivalUtilities extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        saveConfig();
         getLogger().info("Stopping SU");
     }
 

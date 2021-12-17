@@ -61,11 +61,11 @@ public class HomesCommand extends Command {
             return;
         }
         if (homeNameList.size() == 1) {
-            Messager.send(player, homeNameList.get(0));
+            Messager.send(player, "&aHome: &a&l" + homeNameList.get(0));
             return;
         }
 
-        var stringJoiner = new StringJoiner("&r&a, ", "&3&l", "&r");
+        var stringJoiner = new StringJoiner("&a, ", "&3&l", "");
 
         homeNameList.forEach(stringJoiner::add);
 
