@@ -66,9 +66,7 @@ public class HomesCommand extends Command {
         }
 
         var stringJoiner = new StringJoiner("&a, ", "&3&l", "");
-
         homeNameList.forEach(stringJoiner::add);
-
         Messager.send(player, "&aHomes: " + stringJoiner);
 
     }
