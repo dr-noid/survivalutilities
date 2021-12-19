@@ -5,6 +5,8 @@ import com.ebkir.survivalutilities.commands.home.SetWarpCommand;
 import com.ebkir.survivalutilities.commands.spawn.SetSpawnCommand;
 import com.ebkir.survivalutilities.commands.spawn.SpawnCommand;
 import com.ebkir.survivalutilities.commands.teleport.TeleportCommand;
+import com.ebkir.survivalutilities.commands.warp.WarpCommand;
+import com.ebkir.survivalutilities.commands.warp.WarpsCommand;
 import com.ebkir.survivalutilities.models.Home;
 import com.ebkir.survivalutilities.utils.ClassCounter;
 import org.bukkit.Bukkit;
@@ -32,13 +34,16 @@ public final class SurvivalUtilities extends JavaPlugin {
         var commandList = new ArrayList<Command>();
 
         commandList.add(new HomeCommand(instance, homeRoot));
-        commandList.add(new DelHomeCommand(instance, homeRoot));
         commandList.add(new HomesCommand(instance, homeRoot));
         commandList.add(new SetHomeCommand(instance, homeRoot));
+        commandList.add(new DelHomeCommand(instance, homeRoot));
+
 
         commandList.add(new SpawnCommand(instance, spawnRoot));
         commandList.add(new SetSpawnCommand(instance, spawnRoot));
 
+        commandList.add(new WarpCommand(instance, warpRoot));
+        commandList.add(new WarpsCommand(instance, warpRoot));
         commandList.add(new SetWarpCommand(instance, warpRoot));
 
         commandList.add(new TeleportCommand(instance));

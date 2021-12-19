@@ -18,7 +18,7 @@ public class WarpsCommand extends Command {
     private final String configRoot;
 
     public WarpsCommand(SurvivalUtilities plugin, String configRoot) {
-        super("warp");
+        super("warps");
         super.setDescription("See all warps");
         super.setUsage("&a/warps");
 
