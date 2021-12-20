@@ -2,6 +2,8 @@ package com.ebkir.survivalutilities;
 
 import com.ebkir.survivalutilities.commands.home.*;
 import com.ebkir.survivalutilities.commands.home.SetWarpCommand;
+import com.ebkir.survivalutilities.commands.pvp.GetPvpCommand;
+import com.ebkir.survivalutilities.commands.pvp.PvpCommand;
 import com.ebkir.survivalutilities.commands.spawn.SetSpawnCommand;
 import com.ebkir.survivalutilities.commands.spawn.SpawnCommand;
 import com.ebkir.survivalutilities.commands.teleport.TeleportCommand;
@@ -10,7 +12,6 @@ import com.ebkir.survivalutilities.commands.warp.WarpsCommand;
 import com.ebkir.survivalutilities.listeners.BlockBreakListener;
 import com.ebkir.survivalutilities.listeners.CustomListeners;
 import com.ebkir.survivalutilities.models.Home;
-import com.ebkir.survivalutilities.utils.ClassCounter;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
@@ -24,6 +25,8 @@ public final class SurvivalUtilities extends JavaPlugin {
     private final String spawnRoot = "spawn";
     private final String homeRoot = "homes.";
     private final String warpRoot = "warps";
+    private final String pvpRoot = "pvp";
+    private static boolean pvp = true;
 
     @Override
     public void onEnable() {
@@ -59,6 +62,9 @@ public final class SurvivalUtilities extends JavaPlugin {
         commandList.add(new WarpsCommand(instance, warpRoot));
         commandList.add(new SetWarpCommand(instance, warpRoot));
 
+        commandList.add(new PvpCommand(instance, pvpRoot));
+        commandList.add(new GetPvpCommand(instance, pvpRoot));
+
         commandList.add(new TeleportCommand(instance));
         addToCommandMap(this.getName(), commandList);
     }
@@ -67,4 +73,12 @@ public final class SurvivalUtilities extends JavaPlugin {
         Bukkit.getCommandMap().registerAll(fallbackPrefix, commandList);
     }
 
+    public static boolean isPvp() {
+        return pvp;
+    }
+
+    public static void setPvp(boolean state) {
+
+        pvp = state;
+    }
 }
