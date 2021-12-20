@@ -1,38 +1,48 @@
 package com.ebkir.survivalutilities.commands.spawn;
 
 import com.ebkir.survivalutilities.SurvivalUtilities;
+import com.ebkir.survivalutilities.utils.Messager;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class SpawnCommand implements CommandExecutor {
+public class SpawnCommand extends Command {
 
     private final SurvivalUtilities plugin;
     private final String rootPath;
 
     public SpawnCommand(SurvivalUtilities plugin, String rootPath) {
+        super("spawn");
+        super.setUsage("/spawn");
+        super.setDescription("Go to spawn");
+
         this.plugin = plugin;
         this.rootPath = rootPath;
     }
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage("Only players can use this command!");
-            return false;
+            Messager.send(sender, "&cOnly players can use this command");
+            return true;
+        }
+
+        if (args.length != 0) {
+            Messager.send(sender, super.getUsage());
+            return true;
         }
 
         Location loc = plugin.getConfig().getLocation(rootPath);
 
         if (loc == null) {
-            sender.sendMessage("Spawn does not exist yet, try /setspawn");
+            Messager.send(player, "&cSpawn does not exist");
             return true;
         }
 
-        player.teleport(loc);
+        player.teleportAsync(loc);
+        Messager.send(player, "&aTeleporting to spawn");
         return true;
     }
 }

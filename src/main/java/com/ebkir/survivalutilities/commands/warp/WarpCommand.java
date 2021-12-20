@@ -1,7 +1,8 @@
-package com.ebkir.survivalutilities.commands.home;
+package com.ebkir.survivalutilities.commands.warp;
 
 import com.ebkir.survivalutilities.SurvivalUtilities;
 import com.ebkir.survivalutilities.models.Home;
+import com.ebkir.survivalutilities.models.Warp;
 import com.ebkir.survivalutilities.utils.Messager;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -11,20 +12,18 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class HomeCommand extends Command {
+public class WarpCommand extends Command {
 
     private final SurvivalUtilities plugin;
     private final String configRoot;
 
-    public HomeCommand(SurvivalUtilities plugin, String configRoot) {
-        super("home");
-        String description = "Teleport to a home";
-        String usageMessage = "&a/home <name>";
-        super.setUsage(usageMessage);
-        super.setDescription(description);
+    public WarpCommand(SurvivalUtilities plugin, String configRoot) {
+        super("warp");
+        super.setDescription("Teleport to a warp");
+        super.setUsage("&a/warp <name>");
 
-        this.configRoot = configRoot;
         this.plugin = plugin;
+        this.configRoot = configRoot;
     }
 
     @Override
@@ -39,28 +38,26 @@ public class HomeCommand extends Command {
             return true;
         }
 
-        String homeName = args[0];
-        String playerConfigRoot = configRoot + player.getUniqueId();
-        List<Home> homeList = (List<Home>) plugin.getConfig().getList(playerConfigRoot);
+        String warpName = args[0];
+        List<Warp> warpList = (List<Warp>) plugin.getConfig().getList(configRoot);
 
-
-        if (homeList == null) {
-            Messager.send(player, "&aYou don't have any homes");
+        if (warpList == null) {
+            Messager.send(player, "&aThere are no warps");
             return true;
         }
 
-        var optionalHome = homeList
+        var optionalHome = warpList
                 .stream()
-                .filter(home -> home.getName().equals(homeName))
+                .filter(warp -> warp.getName().equals(warpName))
                 .findFirst();
 
         if (optionalHome.isEmpty()) {
-            Messager.send(player, "&aYou don't have a home with this name");
+            Messager.send(player, "&aThere's no warp with this name");
             return true;
         }
 
         Location location = optionalHome.get().getLocation();
-        Messager.send(player, "&aTeleporting to &3&l" + homeName + "&r&a");
+        Messager.send(player, "&aTeleporting to &3&l" + warpName + "&r&a");
         player.teleportAsync(location);
         return true;
     }
