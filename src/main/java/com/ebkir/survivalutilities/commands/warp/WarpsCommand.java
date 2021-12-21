@@ -29,8 +29,6 @@ public class WarpsCommand extends BaseCommand {
 
     @Override
     public boolean command(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
-        Bukkit.getServer().broadcast(Component.text("Warps' command is now called!"));
-
         Player player = getPlayer(sender);
 
         List<Warp> warpList = getWarps();
@@ -54,11 +52,6 @@ public class WarpsCommand extends BaseCommand {
         }
 
         String prefix = warpNameList.size() == 1 ? "&aWarp: &3&l" : "&aWarps: ";
-
-//        if (warpNameList.size() == 1) {
-//            Messager.send(player, "&aWarp: &3&l" + warpNameList.get(0));
-//            return;
-//        }
 
         var stringJoiner = new StringJoiner("&r&a, &3&l", "&3&l", "");
         warpNameList.forEach(stringJoiner::add);

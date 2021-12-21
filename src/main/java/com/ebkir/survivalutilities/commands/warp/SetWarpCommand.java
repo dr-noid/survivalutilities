@@ -1,6 +1,7 @@
-package com.ebkir.survivalutilities.commands.home;
+package com.ebkir.survivalutilities.commands.warp;
 
 import com.ebkir.survivalutilities.SurvivalUtilities;
+import com.ebkir.survivalutilities.commands.BaseCommand;
 import com.ebkir.survivalutilities.models.Warp;
 import com.ebkir.survivalutilities.utils.Messager;
 import org.bukkit.Location;
@@ -13,35 +14,25 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SetWarpCommand extends Command {
+public class SetWarpCommand extends BaseCommand {
 
     private final SurvivalUtilities plugin;
     private final String configRoot;
 
     public SetWarpCommand(SurvivalUtilities plugin, String configRoot) {
-        super("setwarp");
+        super("setwarp", true, 1, 1);
         super.setDescription("Set a warp");
         super.setUsage("&a/setwarp <name>");
-
 
         this.configRoot = configRoot;
         this.plugin = plugin;
     }
 
     @Override
-    public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
-        if (!(sender instanceof Player player)) {
-            Messager.send(sender, "&cOnly players can use this command");
-            return true;
-        }
-
-        if (args.length != 1) {
-            Messager.send(sender, super.getUsage());
-            return true;
-        }
-
+    public boolean command(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
         String warpName = args[0];
 
+        Player player = getPlayer(sender);
         Location playerLocation = player.getLocation();
 
         Warp warpToBeAdded = new Warp(warpName, playerLocation, player.getUniqueId());
@@ -57,12 +48,13 @@ public class SetWarpCommand extends Command {
             boolean warpAdded = addWarp(warpToBeAdded, configWarpList);
 
             if (!warpAdded) {
-                Messager.send(player, MessageFormat.format("&cWarp &3&l{0}&r&c already exists", warpName));
+                String warpAlreadyExistsMessage = "&cWarp &3&l" + warpName + "&r&c already exists";
+                Messager.send(player, warpAlreadyExistsMessage);
                 return true;
             }
         }
-
-        Messager.send(player, MessageFormat.format("&aWarp &3&l{0}&r&a has been set", warpName));
+        String warpSetMessage = "&aWarp &3&l" + warpName + "&r&a has been set";
+        Messager.send(player, warpSetMessage);
         return true;
     }
 

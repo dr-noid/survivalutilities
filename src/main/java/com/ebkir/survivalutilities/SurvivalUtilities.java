@@ -1,12 +1,12 @@
 package com.ebkir.survivalutilities;
 
 import com.ebkir.survivalutilities.commands.home.*;
-import com.ebkir.survivalutilities.commands.home.SetWarpCommand;
 import com.ebkir.survivalutilities.commands.pvp.GetPvpCommand;
 import com.ebkir.survivalutilities.commands.pvp.PvpCommand;
 import com.ebkir.survivalutilities.commands.spawn.SetSpawnCommand;
 import com.ebkir.survivalutilities.commands.spawn.SpawnCommand;
 import com.ebkir.survivalutilities.commands.teleport.TeleportCommand;
+import com.ebkir.survivalutilities.commands.warp.SetWarpCommand;
 import com.ebkir.survivalutilities.commands.warp.WarpCommand;
 import com.ebkir.survivalutilities.commands.warp.WarpsCommand;
 import com.ebkir.survivalutilities.listeners.BlockBreakListener;
@@ -56,7 +56,6 @@ public final class SurvivalUtilities extends JavaPlugin {
         commandList.add(new HomesCommand(instance, homeRoot));
         commandList.add(new SetHomeCommand(instance, homeRoot));
         commandList.add(new DelHomeCommand(instance, homeRoot));
-
 
         commandList.add(new SpawnCommand(instance, spawnRoot));
         commandList.add(new SetSpawnCommand(instance, spawnRoot));

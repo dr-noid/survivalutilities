@@ -2,7 +2,6 @@ package com.ebkir.survivalutilities.models;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
-import org.bukkit.configuration.serialization.SerializableAs;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;
@@ -10,7 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-@SerializableAs("Home")
 public class Warp implements ConfigurationSerializable {
 
     private final String name;
@@ -47,7 +45,7 @@ public class Warp implements ConfigurationSerializable {
     public static Warp deserialize(@NotNull Map<String, Object> data) {
         String name = (String) data.get("name");
         Location location = (Location) data.get("location");
-        UUID ownerUUID = (UUID) data.get("owneruuid");
+        UUID ownerUUID = UUID.fromString((String) data.get("owneruuid"));
         Long createdOn = (Long) data.get("createdon");
 
         return new Warp(name, location, ownerUUID, createdOn);

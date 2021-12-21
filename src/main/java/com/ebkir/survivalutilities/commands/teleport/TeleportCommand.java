@@ -3,15 +3,12 @@ package com.ebkir.survivalutilities.commands.teleport;
 import com.ebkir.survivalutilities.SurvivalUtilities;
 import com.ebkir.survivalutilities.utils.Messager;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.UUID;
+import java.util.*;
 
 public class TeleportCommand extends Command {
 
@@ -21,6 +18,7 @@ public class TeleportCommand extends Command {
         super("teleport");
         super.setUsage("/teleport <name>");
         super.setDescription("Teleport to a player");
+        super.setAliases(List.of("tp"));
 
         this.plugin = plugin;
     }
