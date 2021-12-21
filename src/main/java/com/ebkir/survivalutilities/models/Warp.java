@@ -45,7 +45,7 @@ public class Warp implements ConfigurationSerializable {
     public static Warp deserialize(@NotNull Map<String, Object> data) {
         String name = (String) data.get("name");
         Location location = (Location) data.get("location");
-        UUID ownerUUID = (UUID) data.get("owneruuid");
+        UUID ownerUUID = UUID.fromString((String) data.get("owneruuid"));
         Long createdOn = (Long) data.get("createdon");
 
         return new Warp(name, location, ownerUUID, createdOn);

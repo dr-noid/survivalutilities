@@ -1,6 +1,7 @@
 package com.ebkir.survivalutilities.commands.home;
 
 import com.ebkir.survivalutilities.SurvivalUtilities;
+import com.ebkir.survivalutilities.commands.BaseCommand;
 import com.ebkir.survivalutilities.models.Home;
 import com.ebkir.survivalutilities.utils.Messager;
 import org.bukkit.Location;
@@ -13,13 +14,13 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SetHomeCommand extends Command {
+public class SetHomeCommand extends BaseCommand {
 
     private final SurvivalUtilities plugin;
     private final String configRoot;
 
     public SetHomeCommand(SurvivalUtilities plugin, String configRoot) {
-        super("sethome");
+        super("sethome", true, 1, 1);
         String description = "Teleport to a home";
         String usageMessage = "&a/sethome <name>";
         super.setUsage(usageMessage);
@@ -30,16 +31,8 @@ public class SetHomeCommand extends Command {
     }
 
     @Override
-    public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
-        if (!(sender instanceof Player player)) {
-            Messager.send(sender, "&cOnly players can use this command");
-            return true;
-        }
-
-        if (args.length != 1) {
-            Messager.send(sender, super.getUsage());
-            return true;
-        }
+    public boolean command(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
+        Player player = getPlayer(sender);
 
         String homeName = args[0];
         String playerConfigRoot = configRoot + player.getUniqueId();

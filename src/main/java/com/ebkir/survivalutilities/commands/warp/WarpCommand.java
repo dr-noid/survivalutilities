@@ -1,7 +1,7 @@
 package com.ebkir.survivalutilities.commands.warp;
 
 import com.ebkir.survivalutilities.SurvivalUtilities;
-import com.ebkir.survivalutilities.models.Home;
+import com.ebkir.survivalutilities.commands.BaseCommand;
 import com.ebkir.survivalutilities.models.Warp;
 import com.ebkir.survivalutilities.utils.Messager;
 import org.bukkit.Location;
@@ -12,33 +12,27 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class WarpCommand extends Command {
+public class WarpCommand extends BaseCommand {
 
     private final SurvivalUtilities plugin;
     private final String configRoot;
 
     public WarpCommand(SurvivalUtilities plugin, String configRoot) {
-        super("warp");
+        super("warp", true, 1, 1);
         super.setDescription("Teleport to a warp");
         super.setUsage("&a/warp <name>");
+        super.setAliases(List.of("w"));
 
         this.plugin = plugin;
         this.configRoot = configRoot;
     }
 
     @Override
-    public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
-        if (!(sender instanceof Player player)) {
-            Messager.send(sender, "&cOnly players can use this command");
-            return true;
-        }
-
-        if (args.length != 1) {
-            Messager.send(sender, super.getUsage());
-            return true;
-        }
-
+    public boolean command(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
         String warpName = args[0];
+
+        Player player = getPlayer(sender);
+
         List<Warp> warpList = (List<Warp>) plugin.getConfig().getList(configRoot);
 
         if (warpList == null) {

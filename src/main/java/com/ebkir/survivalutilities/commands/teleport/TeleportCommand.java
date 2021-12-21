@@ -1,41 +1,32 @@
 package com.ebkir.survivalutilities.commands.teleport;
 
 import com.ebkir.survivalutilities.SurvivalUtilities;
+import com.ebkir.survivalutilities.commands.BaseCommand;
 import com.ebkir.survivalutilities.utils.Messager;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.UUID;
+import java.util.*;
 
-public class TeleportCommand extends Command {
+public class TeleportCommand extends BaseCommand {
 
     private final SurvivalUtilities plugin;
 
     public TeleportCommand(SurvivalUtilities plugin) {
-        super("teleport");
+        super("teleport", true, 1, 1);
         super.setUsage("/teleport <name>");
         super.setDescription("Teleport to a player");
+        super.setAliases(List.of("tp"));
 
         this.plugin = plugin;
     }
 
     @Override
-    public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
-        if (!(sender instanceof Player player)) {
-            Messager.send(sender, "&cOnly players can use this command");
-            return true;
-        }
-
-        if (args.length != 1) {
-            Messager.send(sender, super.getUsage());
-            return true;
-        }
+    public boolean command(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
+        Player player = getPlayer(sender);
 
         String targetUser = args[0];
         Player targetPlayer = Bukkit.getPlayer(targetUser);

@@ -6,7 +6,7 @@
 
     <groupId>com.ebkir</groupId>
     <artifactId>SurvivalUtilities</artifactId>
-    <version>1.6.2</version>
+    <version>1.7.2</version>
     <packaging>jar</packaging>
 
     <name>SurvivalUtilities</name>
@@ -69,11 +69,6 @@
             <artifactId>paper-api</artifactId>
             <version>1.18-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>31.0.1-jre</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
