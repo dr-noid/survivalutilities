@@ -2,6 +2,8 @@ package com.ebkir.survivalutilities.models;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
+import org.bukkit.configuration.serialization.DelegateDeserialization;
+import org.bukkit.configuration.serialization.SerializableAs;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;
@@ -9,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+@SerializableAs("Home")
 public class Home implements ConfigurationSerializable {
 
     private final String name;

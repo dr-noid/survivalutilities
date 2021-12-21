@@ -1,5 +1,6 @@
 package com.ebkir.survivalutilities.commands;
 
+import com.ebkir.survivalutilities.utils.Messager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -29,12 +30,14 @@ public abstract class BaseCommand extends Command {
 
         // Player only check
         if (playerOnly && senderNotPlayer(sender)) {
-            return false;
+            Messager.onlyPlayerCommand(sender);
+            return true;
         }
 
         // Correct number of arguments check
         if (!(args.length >= minArgs && args.length <= maxArgs)) {
-            return false;
+            Messager.send(sender, this.getUsage());
+            return true;
         }
 
         // Run the command

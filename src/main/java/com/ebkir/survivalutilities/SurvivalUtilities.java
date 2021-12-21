@@ -12,6 +12,7 @@ import com.ebkir.survivalutilities.commands.warp.WarpsCommand;
 import com.ebkir.survivalutilities.listeners.BlockBreakListener;
 import com.ebkir.survivalutilities.listeners.CustomListeners;
 import com.ebkir.survivalutilities.models.Home;
+import com.ebkir.survivalutilities.models.Warp;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
@@ -30,9 +31,11 @@ public final class SurvivalUtilities extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        ConfigurationSerialization.registerClass(Home.class, "Home");
+        ConfigurationSerialization.registerClass(Warp.class, "Warp");
+
         addCommands(this);
 
-        ConfigurationSerialization.registerClass(Home.class);
         saveDefaultConfig();
 
         getServer().getPluginManager().registerEvents(new BlockBreakListener(), this);
