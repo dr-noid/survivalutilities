@@ -1,10 +1,11 @@
 package com.ebkir.survivalutilities.commands.warp;
 
 import com.ebkir.survivalutilities.SurvivalUtilities;
-import com.ebkir.survivalutilities.models.Home;
+import com.ebkir.survivalutilities.commands.BaseCommand;
 import com.ebkir.survivalutilities.models.Warp;
 import com.ebkir.survivalutilities.utils.Messager;
-import org.bukkit.command.Command;
+import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -12,25 +13,29 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.StringJoiner;
 
-public class WarpsCommand extends Command {
+public class WarpsCommand extends BaseCommand {
 
     private final SurvivalUtilities plugin;
     private final String configRoot;
 
     public WarpsCommand(SurvivalUtilities plugin, String configRoot) {
-        super("warps");
+        super("warps", true, 1, 1);
         super.setDescription("See all warps");
         super.setUsage("&a/warps");
 
         this.plugin = plugin;
         this.configRoot = configRoot;
     }
+
     @Override
-    public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
-        if (!(sender instanceof Player player)) {
-            Messager.send(sender, "&cOnly players can use this command");
+    public boolean command(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
+        Bukkit.getServer().broadcast(Component.text("Warps' command is now called!"));
+        if (senderNotPlayer(sender)) {
+            Messager.onlyPlayerCommand(sender);
             return true;
         }
+
+        Player player = getPlayer(sender);
 
         if (args.length != 0) {
             Messager.send(sender, super.getUsage());
@@ -57,13 +62,13 @@ public class WarpsCommand extends Command {
             return;
         }
         if (warpNameList.size() == 1) {
-            Messager.send(player, "&aHome: &a&l" + warpNameList.get(0));
+            Messager.send(player, "&Warp: &a&l" + warpNameList.get(0));
             return;
         }
 
-        var stringJoiner = new StringJoiner("&a, ", "&3&l", "");
+        var stringJoiner = new StringJoiner("&r&a, &3&l", "&3&l", "");
         warpNameList.forEach(stringJoiner::add);
-        Messager.send(player, "&aHomes: " + stringJoiner);
+        Messager.send(player, "&Warps: " + stringJoiner);
     }
 
     private List<Warp> getWarps() {

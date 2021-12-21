@@ -17,4 +17,8 @@ public class Messager {
         }
         send(sender, "PvP is &adisabled");
     }
+
+    public static void onlyPlayerCommand(CommandSender sender) {
+        send(sender, "&cOnly players can use this command");
+    }
 }
