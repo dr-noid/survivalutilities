@@ -31,8 +31,8 @@ public final class SurvivalUtilities extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        ConfigurationSerialization.registerClass(Home.class, "Home");
-        ConfigurationSerialization.registerClass(Warp.class, "Warp");
+        ConfigurationSerialization.registerClass(Home.class);
+        ConfigurationSerialization.registerClass(Warp.class);
 
         addCommands(this);
 

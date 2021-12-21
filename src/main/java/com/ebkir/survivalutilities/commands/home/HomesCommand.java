@@ -1,6 +1,7 @@
 package com.ebkir.survivalutilities.commands.home;
 
 import com.ebkir.survivalutilities.SurvivalUtilities;
+import com.ebkir.survivalutilities.commands.BaseCommand;
 import com.ebkir.survivalutilities.models.Home;
 import com.ebkir.survivalutilities.utils.Messager;
 import org.bukkit.command.Command;
@@ -12,13 +13,13 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.StringJoiner;
 
-public class HomesCommand extends Command {
+public class HomesCommand extends BaseCommand {
 
     private final SurvivalUtilities plugin;
     private final String configRoot;
 
     public HomesCommand(SurvivalUtilities plugin, String configRoot) {
-        super("homes");
+        super("homes", true, 0, 0);
         String description = "See all your homes";
         String usageMessage = "&a/homes";
         super.setUsage(usageMessage);
@@ -27,8 +28,9 @@ public class HomesCommand extends Command {
         this.configRoot = configRoot;
         this.plugin = plugin;
     }
+
     @Override
-    public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
+    public boolean command(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
         if (!(sender instanceof Player player)) {
             Messager.send(sender, "&cOnly players can use this command");
             return true;

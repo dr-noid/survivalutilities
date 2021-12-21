@@ -1,6 +1,7 @@
 package com.ebkir.survivalutilities.commands.home;
 
 import com.ebkir.survivalutilities.SurvivalUtilities;
+import com.ebkir.survivalutilities.commands.BaseCommand;
 import com.ebkir.survivalutilities.models.Home;
 import com.ebkir.survivalutilities.utils.Messager;
 import org.bukkit.Location;
@@ -11,13 +12,13 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class DelHomeCommand extends Command {
+public class DelHomeCommand extends BaseCommand {
 
     private final SurvivalUtilities plugin;
     private final String configRoot;
 
     public DelHomeCommand(SurvivalUtilities plugin, String configRoot) {
-        super("delhome");
+        super("delhome", true, 1, 1);
         String description = "Delete a home";
         String usageMessage = "&a/delhome <name>";
         super.setDescription(description);
@@ -28,16 +29,8 @@ public class DelHomeCommand extends Command {
     }
 
     @Override
-    public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
-        if (!(sender instanceof Player player)) {
-            Messager.send(sender, "&cOnly players can use this command");
-            return true;
-        }
-
-        if (args.length != 1) {
-            Messager.send(sender, super.getUsage());
-            return true;
-        }
+    public boolean command(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
+        Player player = getPlayer(sender);
 
         String homeName = args[0];
         String playerConfigRoot = configRoot + player.getUniqueId();
