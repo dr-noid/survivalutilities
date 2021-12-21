@@ -26,8 +26,6 @@ public abstract class BaseCommand extends Command {
 
     @Override
     public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
-        Bukkit.getServer().broadcast(Component.text("BaseCommand's execute is now called!"));
-
         // Player only check
         if (playerOnly && senderNotPlayer(sender)) {
             Messager.onlyPlayerCommand(sender);
@@ -40,7 +38,7 @@ public abstract class BaseCommand extends Command {
             return true;
         }
 
-        // Run the command
+        // Execute the command
         return this.command(sender, commandLabel, args);
     }
 
