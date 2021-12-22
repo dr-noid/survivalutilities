@@ -6,20 +6,20 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
-public class SpawnerBreakEvent extends Event {
+public class SpawnerPlacedEvent extends Event {
 
     private static final HandlerList handlers = new HandlerList();
 
-    private Player breaker;
+    private Player placer;
     private Block spawner;
 
-    public SpawnerBreakEvent(Player breaker, Block spawner) {
-        this.breaker = breaker;
+    public SpawnerPlacedEvent(Player breaker, Block spawner) {
+        this.placer = breaker;
         this.spawner = spawner;
     }
 
     public Player getBreaker() {
-        return breaker;
+        return placer;
     }
 
     public Block getSpawner() {

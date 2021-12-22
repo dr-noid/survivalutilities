@@ -9,10 +9,8 @@ import com.ebkir.survivalutilities.commands.teleport.TeleportCommand;
 import com.ebkir.survivalutilities.commands.warp.SetWarpCommand;
 import com.ebkir.survivalutilities.commands.warp.WarpCommand;
 import com.ebkir.survivalutilities.commands.warp.WarpsCommand;
-import com.ebkir.survivalutilities.listeners.BlockBreakListener;
-import com.ebkir.survivalutilities.listeners.CustomListeners;
-import com.ebkir.survivalutilities.listeners.PlayerHitListener;
-import com.ebkir.survivalutilities.listeners.PlayerTeleportListener;
+import com.ebkir.survivalutilities.listeners.*;
+import com.ebkir.survivalutilities.listeners.custom.SpawnerSilkedListener;
 import com.ebkir.survivalutilities.models.Home;
 import com.ebkir.survivalutilities.models.Warp;
 import org.bukkit.Bukkit;
@@ -40,10 +38,12 @@ public final class SurvivalUtilities extends JavaPlugin {
 
         saveDefaultConfig();
 
-        getServer().getPluginManager().registerEvents(new BlockBreakListener(), this);
-        getServer().getPluginManager().registerEvents(new CustomListeners(), this);
         getServer().getPluginManager().registerEvents(new PlayerTeleportListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerHitListener(), this);
+
+        getServer().getPluginManager().registerEvents(new SpawnerBreakListener(this), this);
+        getServer().getPluginManager().registerEvents(new SpawnerPlaceListener(this), this);
+        getServer().getPluginManager().registerEvents(new SpawnerSilkedListener(this), this);
+//        getServer().getPluginManager().registerEvents(new PlayerHitListener(), this);
     }
 
     @Override
