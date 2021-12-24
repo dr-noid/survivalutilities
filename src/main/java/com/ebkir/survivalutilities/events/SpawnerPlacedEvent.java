@@ -4,26 +4,33 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public class SpawnerPlacedEvent extends Event {
 
     private static final HandlerList handlers = new HandlerList();
 
-    private Player placer;
-    private Block spawner;
+    private final Block spawner;
+    private final ItemStack itemStack;
+    private final Player player;
 
-    public SpawnerPlacedEvent(Player breaker, Block spawner) {
-        this.placer = breaker;
+    public SpawnerPlacedEvent(Block spawner, ItemStack itemStack, Player player) {
         this.spawner = spawner;
+        this.itemStack = itemStack;
+        this.player = player;
     }
 
-    public Player getBreaker() {
-        return placer;
+    public Player getPlayer() {
+        return player;
     }
 
     public Block getSpawner() {
         return spawner;
+    }
+
+    public ItemStack getItemStack() {
+        return itemStack;
     }
 
     public static @NotNull HandlerList getHandlerList() {

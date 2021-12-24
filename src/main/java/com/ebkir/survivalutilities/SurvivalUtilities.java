@@ -10,12 +10,17 @@ import com.ebkir.survivalutilities.commands.warp.SetWarpCommand;
 import com.ebkir.survivalutilities.commands.warp.WarpCommand;
 import com.ebkir.survivalutilities.commands.warp.WarpsCommand;
 import com.ebkir.survivalutilities.listeners.*;
+import com.ebkir.survivalutilities.listeners.custom.SpawnerPlacedListener;
 import com.ebkir.survivalutilities.listeners.custom.SpawnerSilkedListener;
+import com.ebkir.survivalutilities.listeners.generic.BlockBreakListener;
+import com.ebkir.survivalutilities.listeners.generic.BlockPlaceListener;
 import com.ebkir.survivalutilities.models.Home;
 import com.ebkir.survivalutilities.models.Warp;
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
@@ -38,18 +43,28 @@ public final class SurvivalUtilities extends JavaPlugin {
 
         saveDefaultConfig();
 
-        getServer().getPluginManager().registerEvents(new PlayerTeleportListener(), this);
-
-        getServer().getPluginManager().registerEvents(new SpawnerBreakListener(this), this);
-        getServer().getPluginManager().registerEvents(new SpawnerPlaceListener(this), this);
-        getServer().getPluginManager().registerEvents(new SpawnerSilkedListener(this), this);
-//        getServer().getPluginManager().registerEvents(new PlayerHitListener(), this);
+        NamespacedKey namespacedKey = new NamespacedKey(this, "mob_type");
+        registerEvents(namespacedKey);
     }
 
     @Override
     public void onDisable() {
         saveConfig();
         getLogger().info("Stopping SU");
+    }
+
+    private void registerEvents(NamespacedKey namespacedKey) {
+        PluginManager pm = getServer().getPluginManager();
+
+        // Spigot Events
+        pm.registerEvents(new PlayerTeleportListener(), this);
+        pm.registerEvents(new PlayerHitListener(), this);
+        pm.registerEvents(new BlockPlaceListener(this), this);
+        pm.registerEvents(new BlockBreakListener(this), this);
+
+        // Custom Events
+        pm.registerEvents(new SpawnerSilkedListener(this, namespacedKey), this);
+        pm.registerEvents(new SpawnerPlacedListener(this, namespacedKey), this);
     }
 
     private void addCommands(SurvivalUtilities instance) {
