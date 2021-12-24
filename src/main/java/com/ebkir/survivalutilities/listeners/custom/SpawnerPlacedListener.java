@@ -32,7 +32,7 @@ public class SpawnerPlacedListener implements Listener {
 
         if (container.getKeys().isEmpty()) {
             // Illegal item
-            plugin.getLogger().info("Player: " + e.getPlayer() + " placed an illegal spawner at " +
+            plugin.getLogger().info("Player: " + e.getPlayer().getName() + " placed an illegal spawner at " +
                     e.getSpawner().getLocation());
             return;
         }
