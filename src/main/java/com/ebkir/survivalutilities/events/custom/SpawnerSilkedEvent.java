@@ -1,36 +1,29 @@
-package com.ebkir.survivalutilities.events;
+package com.ebkir.survivalutilities.events.custom;
 
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-public class SpawnerPlacedEvent extends Event {
+public class SpawnerSilkedEvent extends Event {
 
     private static final HandlerList handlers = new HandlerList();
 
-    private final Block spawner;
-    private final ItemStack itemStack;
-    private final Player player;
+    private Player breaker;
+    private Block spawner;
 
-    public SpawnerPlacedEvent(Block spawner, ItemStack itemStack, Player player) {
+    public SpawnerSilkedEvent(Player breaker, Block spawner) {
+        this.breaker = breaker;
         this.spawner = spawner;
-        this.itemStack = itemStack;
-        this.player = player;
     }
 
-    public Player getPlayer() {
-        return player;
+    public Player getBreaker() {
+        return breaker;
     }
 
     public Block getSpawner() {
         return spawner;
-    }
-
-    public ItemStack getItemStack() {
-        return itemStack;
     }
 
     public static @NotNull HandlerList getHandlerList() {

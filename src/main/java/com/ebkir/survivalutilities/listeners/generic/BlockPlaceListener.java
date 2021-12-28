@@ -1,13 +1,10 @@
 package com.ebkir.survivalutilities.listeners.generic;
 
 import com.ebkir.survivalutilities.SurvivalUtilities;
-import com.ebkir.survivalutilities.events.SpawnerPlacedEvent;
+import com.ebkir.survivalutilities.events.custom.SpawnerPlacedEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
-import org.bukkit.block.CreatureSpawner;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

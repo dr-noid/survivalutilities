@@ -1,7 +1,7 @@
 package com.ebkir.survivalutilities.listeners.custom;
 
 import com.ebkir.survivalutilities.SurvivalUtilities;
-import com.ebkir.survivalutilities.events.SpawnerPlacedEvent;
+import com.ebkir.survivalutilities.events.custom.SpawnerPlacedEvent;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.CreatureSpawner;

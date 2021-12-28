@@ -1,7 +1,7 @@
 package com.ebkir.survivalutilities.listeners.custom;
 
 import com.ebkir.survivalutilities.SurvivalUtilities;
-import com.ebkir.survivalutilities.events.SpawnerSilkedEvent;
+import com.ebkir.survivalutilities.events.custom.SpawnerSilkedEvent;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.Material;
