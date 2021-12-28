@@ -7,10 +7,14 @@ import com.ebkir.survivalutilities.utils.Messager;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class HomeCommand extends BaseCommand {
 
@@ -57,5 +61,26 @@ public class HomeCommand extends BaseCommand {
         Messager.send(player, "&aTeleporting to &3&l" + homeName + "&r&a");
         player.teleportAsync(location);
         return true;
+    }
+
+    @Override
+    public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) throws IllegalArgumentException {
+
+        if (args.length != 1) {
+            return super.tabComplete(sender, alias, args);
+        }
+
+        Player player = (Player) sender;
+        String playerConfigRoot = configRoot + player.getUniqueId();
+        List<Home> homeList = (List<Home>) plugin.getConfig().getList(playerConfigRoot);
+
+        if (homeList == null) {
+            return super.tabComplete(sender, alias, args);
+        }
+
+        return homeList
+                .stream()
+                .map(Home::getName)
+                .toList();
     }
 }

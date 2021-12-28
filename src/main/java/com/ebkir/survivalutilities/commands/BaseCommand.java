@@ -8,6 +8,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 public abstract class BaseCommand extends Command {
 
     private boolean playerOnly;
@@ -20,6 +22,11 @@ public abstract class BaseCommand extends Command {
         this.minArgs = minArgs;
         this.maxArgs = maxArgs;
         this.playerOnly = playerOnly;
+    }
+
+    @Override
+    public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) throws IllegalArgumentException {
+        return super.tabComplete(sender, alias, args);
     }
 
     public abstract boolean command(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args);

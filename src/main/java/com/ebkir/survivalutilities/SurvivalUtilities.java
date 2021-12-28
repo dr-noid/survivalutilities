@@ -6,6 +6,7 @@ import com.ebkir.survivalutilities.commands.pvp.PvpCommand;
 import com.ebkir.survivalutilities.commands.spawn.SetSpawnCommand;
 import com.ebkir.survivalutilities.commands.spawn.SpawnCommand;
 import com.ebkir.survivalutilities.commands.teleport.TeleportCommand;
+import com.ebkir.survivalutilities.commands.warp.DelWarpCommand;
 import com.ebkir.survivalutilities.commands.warp.SetWarpCommand;
 import com.ebkir.survivalutilities.commands.warp.WarpCommand;
 import com.ebkir.survivalutilities.commands.warp.WarpsCommand;
@@ -81,6 +82,7 @@ public final class SurvivalUtilities extends JavaPlugin {
         commandList.add(new WarpCommand(instance, warpRoot));
         commandList.add(new WarpsCommand(instance, warpRoot));
         commandList.add(new SetWarpCommand(instance, warpRoot));
+        commandList.add(new DelWarpCommand(instance, warpRoot));
 
         commandList.add(new PvpCommand(instance, pvpRoot));
         commandList.add(new GetPvpCommand(instance, pvpRoot));

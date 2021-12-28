@@ -62,6 +62,8 @@ public class DelHomeCommand extends BaseCommand {
         return true;
     }
 
+
+
     private void saveHomeList(List<Home> homeList, String playerConfig) {
         plugin.getConfig().set(playerConfig, homeList);
         plugin.saveConfig();

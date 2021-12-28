@@ -2,6 +2,7 @@ package com.ebkir.survivalutilities.commands.warp;
 
 import com.ebkir.survivalutilities.SurvivalUtilities;
 import com.ebkir.survivalutilities.commands.BaseCommand;
+import com.ebkir.survivalutilities.models.Home;
 import com.ebkir.survivalutilities.models.Warp;
 import com.ebkir.survivalutilities.utils.Messager;
 import org.bukkit.Location;
@@ -54,5 +55,24 @@ public class WarpCommand extends BaseCommand {
         Messager.send(player, "&aTeleporting to &3&l" + warpName + "&r&a");
         player.teleportAsync(location);
         return true;
+    }
+
+    @Override
+    public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) throws IllegalArgumentException {
+
+        if (args.length != 1) {
+            return super.tabComplete(sender, alias, args);
+        }
+
+        List<Warp> warpList = (List<Warp>) plugin.getConfig().getList(configRoot);
+
+        if (warpList == null) {
+            return super.tabComplete(sender, alias, args);
+        }
+
+        return warpList
+                .stream()
+                .map(Warp::getName)
+                .toList();
     }
 }
